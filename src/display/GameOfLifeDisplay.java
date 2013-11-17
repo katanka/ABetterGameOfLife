@@ -14,19 +14,22 @@ import background.*;
 
 public class GameOfLifeDisplay extends JPanel implements Runnable{
 	
-	private static final int fps = 30;
+	private static final int fps = 30; // max fps
 	private static final int dt = 1000 / fps;
 	private int width;
 	private int height;
 	
-	//Balance vars
-	private static final int chanceOfLife = 3;
 	
+	//Balance vars
+	private static final int chanceOfLife = 4;
+	private int speed = 1;
+	
+	//DON'T TOUCH
 	private static GameOfLifeDisplay me;
 	public static JFrame parentWindow;
 	
 	private BufferedImage background;
-	private Terrain map;
+	private TileGrid map;
 
 	public static void main(String[] args) {
 		
@@ -53,7 +56,7 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 		height = background.getHeight();
 		parentWindow.setSize(width, height);
 		
-		map = new Terrain(background, chanceOfLife);
+		map = new TileGrid(background, chanceOfLife);
 		
 		new Thread(this).start();
 		
@@ -61,7 +64,8 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 	
 	
 	public void update(){
-		map.update();
+		for(int i = 0; i < speed; i++)
+			map.update();
 	}
 	
 	public void paint(Graphics g1){

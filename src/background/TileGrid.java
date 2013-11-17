@@ -4,13 +4,13 @@ import java.awt.image.BufferedImage;
 import java.awt.Color;
 import java.awt.Graphics;
 
-public class Terrain {
+public class TileGrid {
 	
 	public Tile[][] map;
 	
 	private int chanceOfLife;
 	
-	public Terrain(BufferedImage img, int chance){
+	public TileGrid(BufferedImage img, int chance){
 		
 		map = new Tile[img.getWidth()][img.getHeight()];
 		
@@ -31,13 +31,13 @@ public class Terrain {
 		for(int x = 0; x < map.length; x++){
 			for(int y = 0; y < map[0].length; y++){
 				
-				Tile me = map[x][y];
-				me.update();
+				map[x][y].update();
 				
 			}	
 		}
 	}
 	
+	//Generate terrain from input image
 	private void generateFromImg(BufferedImage img){
 		
 		int width = map.length;

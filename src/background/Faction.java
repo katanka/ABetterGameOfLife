@@ -5,11 +5,11 @@ import java.awt.Color;
 public enum Faction {
 	VACANT(Color.WHITE),
 	BLOCKED(Color.WHITE),
-	BLACK(Color.BLACK),
+	//BLACK(Color.BLACK),
 	RED(Color.RED),
 	GREEN(Color.GREEN),
-	BLUE(Color.BLUE),
-	PINK(Color.PINK);
+	BLUE(Color.BLUE);
+	//PURPLE(new Color(255, 0, 255));
 	
 	private Color color;
 	

@@ -9,17 +9,17 @@ public class Tile {
 	
 	private boolean alive;
 	
-	private Terrain map;
+	private TileGrid map;
 	
 	private Tile[] neighbors;
 	
-	public Tile(Terrain map){
+	public Tile(TileGrid map){
 		this.map = map;
 
 		setOwner(Faction.VACANT);
 	}
 	
-	public Tile(Terrain map, Faction owner){
+	public Tile(TileGrid map, Faction owner){
 		this.map = map;
 		setOwner(owner);
 		alive = true;
