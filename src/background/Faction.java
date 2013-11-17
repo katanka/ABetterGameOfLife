@@ -2,19 +2,19 @@ package background;
 
 import java.awt.Color;
 
-public enum Team {
+public enum Faction {
 	VACANT(Color.WHITE),
 	BLOCKED(Color.WHITE),
 	BLACK(Color.BLACK),
 	RED(Color.RED),
-	GREEN(Color.GREEN),
-	BLUE(Color.BLUE),
-	PINK(Color.PINK),
-	YELLOW(Color.YELLOW);
+	GREEN(Color.GREEN);
+	//BLUE(Color.BLUE),
+	//PINK(Color.PINK),
+	//YELLOW(Color.YELLOW);
 	
 	private Color color;
 	
-	private Team(Color color){
+	private Faction(Color color){
 		this.color = color;
 	}
 	
@@ -22,10 +22,10 @@ public enum Team {
 		return color;
 	}
 	
-	public static Team getRandom() {
-		Team t = values()[(int) (Math.random() * values().length)];
+	public static Faction getRandom() {
+		Faction t = values()[(int) (Math.random() * values().length)];
 		
-		while(t == Team.VACANT || t == Team.BLOCKED){
+		while(t == Faction.VACANT || t == Faction.BLOCKED){
 			t = values()[(int) (Math.random() * values().length)];
 		}
         return t;

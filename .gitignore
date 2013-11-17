@@ -98,8 +98,8 @@ ipch/
 _ReSharper*/
 *.[Rr]e[Ss]harper
 
-# TeamCity is a build add-in
-_TeamCity*
+# FactionCity is a build add-in
+_FactionCity*
 
 # DotCover is a Code Coverage Tool
 *.dotCover
