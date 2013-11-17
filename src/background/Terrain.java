@@ -32,7 +32,6 @@ public class Terrain {
 			for(int y = 0; y < map[0].length; y++){
 				
 				Tile me = map[x][y];
-				me.generateNeighbors(x, y);
 				me.update();
 				
 			}	
@@ -58,6 +57,16 @@ public class Terrain {
 				}
 				
 			}
+		}
+		
+		for(int x = 0; x < map.length; x++){
+			for(int y = 0; y < map[0].length; y++){
+				
+				Tile me = map[x][y];
+				me.generateNeighbors(x, y);
+				me.update();
+				
+			}	
 		}
 		
 	}

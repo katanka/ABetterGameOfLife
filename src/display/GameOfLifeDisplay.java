@@ -20,7 +20,7 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 	private int height;
 	
 	//Balance vars
-	private static final int chanceOfLife = 5;
+	private static final int chanceOfLife = 3;
 	
 	private static GameOfLifeDisplay me;
 	public static JFrame parentWindow;

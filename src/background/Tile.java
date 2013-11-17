@@ -1,6 +1,8 @@
 package background;
 
 import java.awt.Graphics;
+import java.util.*;
+import java.util.Map.*;
 
 public class Tile {
 	private Faction owner;
@@ -24,6 +26,9 @@ public class Tile {
 	}
 	
 	public void update(){
+		
+		if(getOwner() == Faction.BLOCKED) return;
+		
 		//1 - underpopulation
 		if(fneighbors() < 2) setStatus(false);
 		
@@ -68,6 +73,12 @@ public class Tile {
 		}catch(ArrayIndexOutOfBoundsException e){
 			
 		}
+		
+		for(int i = 0; i < neighbors.length; i++){
+			if(neighbors[i] == null){
+				neighbors[i] = new Tile(map, Faction.BLOCKED);
+			}
+		}
 	}
 	
 	public int neighborsOfFaction(Faction f){
@@ -108,38 +119,27 @@ public class Tile {
 	}
 	
 	public Faction greatestFaction(){
-		int black = 0;
-		int red = 0;
-		int green = 0;
 		
-		for(Tile t : neighbors){
-			if(enemies(t)){
-				switch(t.getOwner()){
-					case BLACK:
-						black++;
-						break;
-					case RED:
-						red++;
-						break;
-					case GREEN:
-						green++;
-						break;
-					default:
-						break;
-				}
-			}
+		Map<Faction, Integer> map = new HashMap<Faction, Integer>();
+		for (Tile t : neighbors) {
+		    Integer count = map.get(t.getOwner());
+		    map.put(t.getOwner(), count != null ? count+1 : 0);
 		}
 		
-		if(black == 0 && red == 0 && green == 0) return Faction.VACANT;
+		map.put(Faction.VACANT, 0);
 		
-		if(Math.max(Math.max(black, red), green) == green){
-			return Faction.GREEN;
-		}else if(Math.max(black, red) == black){
-			return Faction.BLACK;
-		}else{
-			return Faction.RED;
-		}
+		Faction popular = Collections.max(map.entrySet(),
+			    new Comparator<Map.Entry<Faction, Integer>>() {
+			    @Override
+			    public int compare(Entry<Faction, Integer> o1, Entry<Faction, Integer> o2) {
+			        return o1.getValue().compareTo(o2.getValue());
+			    }
+			}).getKey();
+		
+		
+		return popular;
 	}
+	
 	
 	public boolean friends(Tile t){
 		return t == null ? false : getOwner() == t.getOwner();

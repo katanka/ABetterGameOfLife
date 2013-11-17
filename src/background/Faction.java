@@ -7,10 +7,9 @@ public enum Faction {
 	BLOCKED(Color.WHITE),
 	BLACK(Color.BLACK),
 	RED(Color.RED),
-	GREEN(Color.GREEN);
-	//BLUE(Color.BLUE),
-	//PINK(Color.PINK),
-	//YELLOW(Color.YELLOW);
+	GREEN(Color.GREEN),
+	BLUE(Color.BLUE),
+	PINK(Color.PINK);
 	
 	private Color color;
 	
