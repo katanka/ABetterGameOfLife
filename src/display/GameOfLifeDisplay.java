@@ -13,10 +13,14 @@ import background.*;
 
 public class GameOfLifeDisplay extends JPanel implements Runnable{
 	
-	private static final int fps = 30;
+	private static final int fps = 2;
 	private static final int dt = 1000 / fps;
 	private static int WIDTH;
 	private static int HEIGHT;
+	
+	//Balance vars
+	private static final int chanceOfLife = 2;
+	private static final int populate = 3;
 	
 	private static GameOfLifeDisplay me;
 	public static JFrame parentWindow;
@@ -46,14 +50,23 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 		}
 		parentWindow.setSize(background.getWidth(), background.getHeight());
 		
+		map = new Terrain(background, chanceOfLife);
+		
+		new Thread(this).start();
+		
 	}
 	
 	
 	public void update(){
-		
+		map.update();
 	}
 	
 	public void paint(Graphics g){
+		super.paint(g);
+		
+		g.drawImage(background, 0, 0, null);
+		
+		map.draw(g);
 		
 	}
 	

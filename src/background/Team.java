@@ -4,6 +4,7 @@ import java.awt.Color;
 
 public enum Team {
 	VACANT(Color.WHITE),
+	BLOCKED(Color.WHITE),
 	BLACK(Color.BLACK),
 	RED(Color.RED),
 	GREEN(Color.GREEN),
@@ -20,4 +21,13 @@ public enum Team {
 	public Color getColor(){
 		return color;
 	}
+	
+	public static Team getRandom() {
+		Team t = values()[(int) (Math.random() * values().length)];
+		
+		while(t == Team.VACANT || t == Team.BLOCKED){
+			t = values()[(int) (Math.random() * values().length)];
+		}
+        return t;
+    }
 }
