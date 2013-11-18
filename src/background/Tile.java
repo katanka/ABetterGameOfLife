@@ -13,21 +13,36 @@ public class Tile {
 	
 	private Tile[] neighbors;
 	
+	private Terrain terrain;
+	
+	private int x, y;
+	
 	public Tile(TileGrid map){
 		this.map = map;
 
 		setOwner(Faction.VACANT);
+		setTerrain(Terrain.NORMAL);
 	}
 	
 	public Tile(TileGrid map, Faction owner){
 		this.map = map;
 		setOwner(owner);
 		alive = true;
+		setTerrain(Terrain.NORMAL);
+	}
+	
+	public Tile(TileGrid map, Faction owner, Terrain terrain){
+		this.map = map;
+		setOwner(owner);
+		alive = true;
+		setTerrain(terrain);
 	}
 	
 	public void update(){
 		
 		if(getOwner() == Faction.BLOCKED) return;
+		
+		//resolveNeighbors(x, y);
 		
 		//1 - underpopulation
 		if(fneighbors() < 2) setStatus(false);
@@ -57,9 +72,38 @@ public class Tile {
 		if(isAlive() && eneighbors() > fneighbors()){
 			setStatus(false);
 		}
+		
+		//6 - death by terrain
+		if(isAlive()){
+			if(getTerrain().tryKill()){
+				setStatus(false);
+			}
+		}
+	}
+	
+	private void resolveNeighbors(int x, int y){
+		
+		if(neighbors == null){
+			generateNeighbors(x, y);
+			return;
+		}
+		
+		boolean ok = true;
+		for(int i = 0; i < neighbors.length; i++){
+			if(neighbors[i] == null){
+				ok = false;
+				break;
+			}
+		}
+		
+		if(ok) return;
+		
+		generateNeighbors(x, y);
 	}
 	
 	public void generateNeighbors(int x, int y){
+		this.x = x;
+		this.y = y;
 		neighbors = new Tile[8];
 		try{
 			neighbors[0] = map.map[x-1][y-1];
@@ -168,6 +212,14 @@ public class Tile {
 	
 	public Faction getOwner(){
 		return owner;
+	}
+	
+	public void setTerrain(Terrain t){
+		this.terrain = t;
+	}
+	
+	public Terrain getTerrain(){
+		return terrain;
 	}
 	
 	public void draw(Graphics g, int x, int y){

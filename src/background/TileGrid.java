@@ -9,14 +9,21 @@ public class TileGrid {
 	public Tile[][] map;
 	
 	private int chanceOfLife;
+	private int randomGen;
 	
-	public TileGrid(BufferedImage img, int chance){
+	private BufferedImage img;
+	
+	public TileGrid(BufferedImage img, int chance, int randomGen){
 		
 		map = new Tile[img.getWidth()][img.getHeight()];
 		
 		chanceOfLife = chance;
 		
+		this.randomGen = randomGen;
+		
 		generateFromImg(img);
+		
+		this.img = img;
 	}
 	
 	public void draw(Graphics g){
@@ -33,8 +40,30 @@ public class TileGrid {
 				
 				map[x][y].update();
 				
+				
+				/*if(map[x][y].getOwner() == Faction.VACANT){
+					if (Math.floor(Math.random() * randomGen) < 1) {
+						map[x][y] = new Tile(this, null, getTerrainFromImage(img, x, y)); //random faction
+					}
+				}*/
 			}	
 		}
+	}
+	
+	private Terrain getTerrainFromImage(BufferedImage img, int x, int y){
+		Terrain t = null;
+		
+		if(img.getRGB(x, y) == Terrain.NORMAL.getColor().getRGB()){
+			t = Terrain.NORMAL;
+		}else if(img.getRGB(x, y) == Terrain.MOUNTAINS.getColor().getRGB()){
+			t = Terrain.MOUNTAINS;
+		}else if(img.getRGB(x, y) == Terrain.WATER.getColor().getRGB()){
+			t = Terrain.WATER;
+		}else{
+			t = Terrain.BLOCKED;
+		}
+		
+		return t;
 	}
 	
 	//Generate terrain from input image
@@ -47,13 +76,16 @@ public class TileGrid {
 			for(int y = 0; y < height; y++){
 				
 				if(img.getRGB(x, y) == Color.BLACK.getRGB()){
-					map[x][y] = new Tile(this, Faction.BLOCKED);
+					map[x][y] = new Tile(this, Faction.BLOCKED, Terrain.BLOCKED);
 				}else{
+					
 					if (Math.floor(Math.random() * chanceOfLife) < 1) {
-						map[x][y] = new Tile(this, null);
+						map[x][y] = new Tile(this, null, getTerrainFromImage(img, x, y)); //random faction
 					} else {
-						map[x][y] = new Tile(this);
+						map[x][y] = new Tile(this, Faction.VACANT, getTerrainFromImage(img, x, y)); //vacant
 					}
+					
+					
 				}
 				
 			}

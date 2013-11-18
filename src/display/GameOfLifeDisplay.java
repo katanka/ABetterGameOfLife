@@ -1,7 +1,6 @@
 package display;
 
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.awt.image.*;
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +11,7 @@ import javax.swing.JPanel;
 
 import background.*;
 
+@SuppressWarnings("serial")
 public class GameOfLifeDisplay extends JPanel implements Runnable{
 	
 	private static final int fps = 30; // max fps
@@ -21,7 +21,8 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 	
 	
 	//Balance vars
-	private static final int chanceOfLife = 4;
+	private static final int chanceOfLife = 5;
+	private static final int randomGen = 5000;
 	private int speed = 1;
 	
 	//DON'T TOUCH
@@ -56,7 +57,7 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 		height = background.getHeight();
 		parentWindow.setSize(width, height);
 		
-		map = new TileGrid(background, chanceOfLife);
+		map = new TileGrid(background, chanceOfLife, randomGen);
 		
 		new Thread(this).start();
 		
@@ -75,15 +76,21 @@ public class GameOfLifeDisplay extends JPanel implements Runnable{
 		Graphics g = bufferImage.getGraphics();
 		
 		//draw stuff to buffer
-		g.drawImage(background, 0, 0, null);
+		
 		map.draw(g);
+		
+		
+		
+		Graphics2D g2d = (Graphics2D)g;
+		float opacity = 0.5f;
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity));
+		g.drawImage(background, 0, 0, null);
+		
 		
 		//scale and display
 		int winWidth = this.getWidth();
 		int winHeight = this.getHeight();
 		g1.drawImage(bufferImage, 0, 0, winWidth, winHeight,  null);
-		
-		
 	}
 	
 	
