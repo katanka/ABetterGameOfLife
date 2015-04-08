@@ -10,6 +10,9 @@ Run using "java ABetterGameOfLife"
 To specify a background image, run using: "java ABetterGameOfLife [name]"
 
 Valid names:
-england
-europe_big
-europe_small
+
+	england
+
+	europe_big
+
+	europe_small
